@@ -8,7 +8,7 @@ with 'Net::WURFL::ScientiaMobile::Cache';
 
 has 'cookie_name'       => (is => 'rw', default => sub { 'WurflCloud_Client' });
 has 'cache_expiration'  => (is => 'rw', default => sub { 86400 });
-has 'env'               => (is => 'rw', trigger => 1);
+has 'env'               => (is => 'rw');
 has 'cookies'           => (is => 'rw');
 
 sub getDevice {

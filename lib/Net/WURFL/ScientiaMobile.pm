@@ -7,7 +7,7 @@
 #
 
 package Net::WURFL::ScientiaMobile;
-our $VERSION = '1.0.2';
+our $VERSION = '1.0.3';
 
 use Exception::Class (
     'Net::WURFL::ScientiaMobile::Exception',
@@ -88,7 +88,7 @@ has 'wcloud_servers'        => (
 
 has 'wcloud_host'           => (is => 'lazy', default => sub { $_[0]->getWeightedServer->[0] }, reader => 'getCloudServer');
 has '_current_server'       => (is => 'ro', default => sub { [] });
-has 'capabilities'          => (is => 'ro', default => sub { {} });
+has 'capabilities'          => (is => 'rw', default => sub { {} });
 has '_errors'               => (is => 'rw', default => sub { [] });
 has '_search_capabilities'  => (is => 'ro', default => sub { [] });
 has '_user_agent'           => (is => 'rw'); # The HTTP User-Agent that is being evaluated
@@ -150,7 +150,7 @@ sub detectDevice {
     $self->_search_capabilities($search_capabilities) if ref $search_capabilities eq 'ARRAY';
     $self->_user_agent($self->getUserAgent($env));
     my $result = $self->cache->getDevice($self->_user_agent);
-    if (!$result) {
+     unless (ref $result eq 'HASH') {
         $self->_source(SOURCE_CLOUD);
         $self->_callWurflCloud;
         $self->_validateCache;
